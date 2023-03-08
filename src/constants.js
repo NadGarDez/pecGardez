@@ -1,0 +1,1 @@
+export const PAGES = ["index", "libros", "blogs", "citas"]
