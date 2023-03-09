@@ -6,6 +6,7 @@ import { BookPost } from "../components/sections/Book/BookPost";
 import { useQuery } from "@apollo/client";
 import { BOOK_LIST_QUERY } from "../constants/queries";
 import { LoadingCard } from "../components/sections/UISystem/LoadingCard";
+import { ErrorCard } from "../components/sections/UISystem/ErrorCard";
 
 
 const styles = {
@@ -98,7 +99,7 @@ export const Libros = ()=> {
     };
 
     if(loading) return <LoadingCard />
-    if(error) return <p>error</p>
+    if(error) return <ErrorCard error={error}/>
 
     return (
         <>

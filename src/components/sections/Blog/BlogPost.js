@@ -6,6 +6,7 @@ import { ColumnView } from "../../ColumnView";
 import { RowView } from "../../RowView";
 import {NavigatorContext} from "../../../utils/context";
 import { LoadingCard } from "../UISystem/LoadingCard";
+import { ErrorCard } from "../UISystem/ErrorCard";
 
 
 const styles = {
@@ -67,7 +68,7 @@ export const BlogPost = ()=> {
     })
 
     if(loading) return <LoadingCard />
-    if(error) return <p>error</p>
+    if(error) return <ErrorCard error={error}/>
 
     return (
         <RowView style={styles.container} horizontalCenter>

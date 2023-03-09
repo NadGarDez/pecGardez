@@ -5,6 +5,7 @@ import { colors } from "../../../styles/colors";
 import { NavigatorContext } from "../../../utils/context";
 import { ColumnView } from "../../ColumnView";
 import { RowView } from "../../RowView";
+import { ErrorCard } from "../UISystem/ErrorCard";
 import { LoadingCard } from "../UISystem/LoadingCard";
 
 
@@ -67,7 +68,7 @@ export const BookPost = ()=> {
     console.log(error);
 
     if(loading) return <LoadingCard />
-    if(error) return <p>error</p>
+    if(error) return <ErrorCard error={error}/>
 
     return (
         <RowView style={styles.container} horizontalCenter>
