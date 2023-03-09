@@ -5,6 +5,7 @@ import { ItemList } from "../components/sections/UISystem/ItemList";
 import { BookPost } from "../components/sections/Book/BookPost";
 import { useQuery } from "@apollo/client";
 import { BOOK_LIST_QUERY } from "../constants/queries";
+import { LoadingCard } from "../components/sections/UISystem/LoadingCard";
 
 
 const styles = {
@@ -96,7 +97,7 @@ export const Libros = ()=> {
         setParams({id: id})
     };
 
-    if(loading) return <p>loading</p>
+    if(loading) return <LoadingCard />
     if(error) return <p>error</p>
 
     return (

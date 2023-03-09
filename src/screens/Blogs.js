@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import React, { useContext } from "react";
 import { BlogPost } from "../components/sections/Blog/BlogPost";
 import { ItemList } from "../components/sections/UISystem/ItemList";
+import { LoadingCard } from "../components/sections/UISystem/LoadingCard";
 import { BLOG_LIST_QUERY } from "../constants/queries";
 import { colors } from "../styles/colors";
 import { NavigatorContext } from "../utils/context";
@@ -95,7 +96,7 @@ export const Blogs = ()=> {
 
     const {loading, error, data : {blogsList} = {}} = useQuery(BLOG_LIST_QUERY)
 
-    if(loading) return <p>loading</p>
+    if(loading) return <LoadingCard />
     if(error) return <p>error</p>
 
     return (

@@ -5,6 +5,7 @@ import { colors } from "../../../styles/colors";
 import { ColumnView } from "../../ColumnView";
 import { RowView } from "../../RowView";
 import {NavigatorContext} from "../../../utils/context";
+import { LoadingCard } from "../UISystem/LoadingCard";
 
 
 const styles = {
@@ -65,7 +66,7 @@ export const BlogPost = ()=> {
         variables: {blog: params.id}
     })
 
-    if(loading) return <p>loading</p>
+    if(loading) return <LoadingCard />
     if(error) return <p>error</p>
 
     return (
