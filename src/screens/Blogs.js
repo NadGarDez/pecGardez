@@ -1,9 +1,8 @@
+import { useQuery } from "@apollo/client";
 import React, { useContext } from "react";
-import { ColumnView } from "../components/ColumnView";
-import { RowView } from "../components/RowView";
 import { BlogPost } from "../components/sections/Blog/BlogPost";
-import { Button } from "../components/sections/UISystem/Button";
 import { ItemList } from "../components/sections/UISystem/ItemList";
+import { BLOG_LIST_QUERY } from "../constants/queries";
 import { colors } from "../styles/colors";
 import { NavigatorContext } from "../utils/context";
 
@@ -86,45 +85,7 @@ const styles = {
 
 export const Blogs = ()=> {
 
-    const  {setPage , setParams, params} = useContext(NavigatorContext);
-
-    const mockedBlogs = [
-        {
-            id: 2,
-            title : "blog 1",
-            subtitle: "some subtitle",
-            image: "https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTYyNDg1MjE3MTI1Mjc5Mzk4/topic-london-gettyimages-760251843-promo.jpg",
-            extraData: "Writer : Iranad",
-        },
-        {
-            id: 3,
-            title : "blog 1",
-            subtitle: "some subtitle",
-            image: "https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTYyNDg1MjE3MTI1Mjc5Mzk4/topic-london-gettyimages-760251843-promo.jpg",
-            extraData: "Writer : Iranad",
-        },
-        {
-            id: 4,
-            title : "blog 1",
-            subtitle: "some subtitle",
-            image: "https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTYyNDg1MjE3MTI1Mjc5Mzk4/topic-london-gettyimages-760251843-promo.jpg",
-            extraData: "Writer : Iranad",
-        },
-        {
-            id: 5,
-            title : "blog 1",
-            subtitle: "some subtitle",
-            image: "https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTYyNDg1MjE3MTI1Mjc5Mzk4/topic-london-gettyimages-760251843-promo.jpg",
-            extraData: "Writer : Iranad",
-        },
-        {
-            id: 6,
-            title : "blog 1",
-            subtitle: "some subtitle",
-            image: "https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTYyNDg1MjE3MTI1Mjc5Mzk4/topic-london-gettyimages-760251843-promo.jpg",
-            extraData: "Writer : Iranad",
-        }
-    ]
+    const  { setParams, params} = useContext(NavigatorContext);
 
     const onPressBlog = (id)=> {
         setParams({id: id})
@@ -132,6 +93,10 @@ export const Blogs = ()=> {
 
     const isPost = ()=> (JSON.stringify(params) !== "{}");
 
+    const {loading, error, data : {blogsList} = {}} = useQuery(BLOG_LIST_QUERY)
+
+    if(loading) return <p>loading</p>
+    if(error) return <p>error</p>
 
     return (
         <>
@@ -139,7 +104,7 @@ export const Blogs = ()=> {
                 isPost() 
                     ? (<BlogPost />)
                     : (
-                        <ItemList data={mockedBlogs} ListTitle="Blogs" onPressItem={onPressBlog}/>
+                        <ItemList data={blogsList} ListTitle="Blogs" onPressItem={onPressBlog}/>
                     )
             }
         </>

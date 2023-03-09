@@ -82,6 +82,9 @@ const styles = {
 
 
 export const ItemList = ({onPressItem, ListTitle, data })=> {
+
+    const {items} = data;
+
     return (
         <RowView style={styles.container} horizontalCenter>
             <ColumnView style={styles.card} >
@@ -92,12 +95,12 @@ export const ItemList = ({onPressItem, ListTitle, data })=> {
                 </RowView>
                 <RowView style={styles.blogList}>
                     {
-                        data.map(
+                        items.map(
                             item => (
                                 <RowView style={{width: "20%"}} horizontalCenter>
                                     <ColumnView style={styles.item} className="shadow3">
                                         <RowView style={styles.imageItemContainer} horizontalCenter >
-                                            <img src={item.image} style={styles.imageStyles}/>
+                                            <img src={item.imageUrl} style={styles.imageStyles}/>
 
                                         </RowView>
                                         <RowView style={styles.itemTitleContainer}>
@@ -112,7 +115,7 @@ export const ItemList = ({onPressItem, ListTitle, data })=> {
                                         </RowView>
                                         <RowView style={styles.itemWriterContainer}>
                                             <p style={styles.itemWriterTextStyles}>
-                                             {item.extraData}
+                                             {item.metadata}
                                             </p>
                                         </RowView>
                                         <RowView style={styles.buttonContainer} horizontalCenter>

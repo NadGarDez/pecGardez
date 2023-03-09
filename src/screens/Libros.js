@@ -3,6 +3,8 @@ import { colors } from "../styles/colors";
 import { NavigatorContext } from "../utils/context";
 import { ItemList } from "../components/sections/UISystem/ItemList";
 import { BookPost } from "../components/sections/Book/BookPost";
+import { useQuery } from "@apollo/client";
+import { BOOK_LIST_QUERY } from "../constants/queries";
 
 
 const styles = {
@@ -85,88 +87,17 @@ export const Libros = ()=> {
 
     const {params, setParams} = useContext(NavigatorContext)
 
-    const mockedBlogs = [
-        {
-            id: new Date().getTime(),
-            title : "Libro 1",
-            subtitle: "some subtitle",
-            image: "https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTYyNDg1MjE3MTI1Mjc5Mzk4/topic-london-gettyimages-760251843-promo.jpg",
-            writer: "Iranad",
-        },
-        {
-            id: new Date().getTime(),
-            title : "Libro 1",
-            subtitle: "some subtitle",
-            image: "https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTYyNDg1MjE3MTI1Mjc5Mzk4/topic-london-gettyimages-760251843-promo.jpg",
-            writer: "Iranad",
-        },
-        {
-            id: new Date().getTime(),
-            title : "Libro 1",
-            subtitle: "some subtitle",
-            image: "https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTYyNDg1MjE3MTI1Mjc5Mzk4/topic-london-gettyimages-760251843-promo.jpg",
-            writer: "Iranad",
-        },
-        {
-            id: new Date().getTime(),
-            title : "Libro 1",
-            subtitle: "some subtitle",
-            image: "https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTYyNDg1MjE3MTI1Mjc5Mzk4/topic-london-gettyimages-760251843-promo.jpg",
-            writer: "Iranad",
-        },
-        {
-            id: new Date().getTime(),
-            title : "Libro 1",
-            subtitle: "some subtitle",
-            image: "https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTYyNDg1MjE3MTI1Mjc5Mzk4/topic-london-gettyimages-760251843-promo.jpg",
-            writer: "Iranad",
-        },
-        {
-            id: new Date().getTime(),
-            title : "Libro 1",
-            subtitle: "some subtitle",
-            image: "https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTYyNDg1MjE3MTI1Mjc5Mzk4/topic-london-gettyimages-760251843-promo.jpg",
-            writer: "Iranad",
-        },
-        {
-            id: new Date().getTime(),
-            title : "Libro 1",
-            subtitle: "some subtitle",
-            image: "https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTYyNDg1MjE3MTI1Mjc5Mzk4/topic-london-gettyimages-760251843-promo.jpg",
-            writer: "Iranad",
-        },
-        {
-            id: new Date().getTime(),
-            title : "Libro 1",
-            subtitle: "some subtitle",
-            image: "https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTYyNDg1MjE3MTI1Mjc5Mzk4/topic-london-gettyimages-760251843-promo.jpg",
-            writer: "Iranad",
-        },
-        {
-            id: new Date().getTime(),
-            title : "Libro 1",
-            subtitle: "some subtitle",
-            image: "https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTYyNDg1MjE3MTI1Mjc5Mzk4/topic-london-gettyimages-760251843-promo.jpg",
-            writer: "Iranad",
-        },
-        {
-            id: new Date().getTime(),
-            title : "Libro 1",
-            subtitle: "some subtitle",
-            image: "https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTYyNDg1MjE3MTI1Mjc5Mzk4/topic-london-gettyimages-760251843-promo.jpg",
-            writer: "Iranad",
-        },
-       
-    ]
+    const {loading, error , data: {booksList} = {}} = useQuery(BOOK_LIST_QUERY)
 
     const isBook = ()=> (JSON.stringify(params) !== "{}");
 
     const onPressBook = (id)=> {
+        console.log(id)
         setParams({id: id})
     };
 
-    console.log(params)
-
+    if(loading) return <p>loading</p>
+    if(error) return <p>error</p>
 
     return (
         <>
@@ -174,7 +105,7 @@ export const Libros = ()=> {
                 isBook() ? (
                     <BookPost />
                 ) : (
-                    <ItemList data={mockedBlogs} ListTitle="Libros" onPressItem={onPressBook}/>
+                    <ItemList data={booksList} ListTitle="Libros" onPressItem={onPressBook}/>
                 )
             }
         </>

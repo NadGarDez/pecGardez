@@ -1,5 +1,8 @@
+import { useQuery } from "@apollo/client";
 import React, { useContext } from "react";
+import { BOOK_QUERY } from "../../../constants/queries";
 import { colors } from "../../../styles/colors";
+import { NavigatorContext } from "../../../utils/context";
 import { ColumnView } from "../../ColumnView";
 import { RowView } from "../../RowView";
 
@@ -39,6 +42,7 @@ const styles = {
     },
     paragraphContainer: {
         marginLeft: 24,
+        marginRight: 8,
         marginTop: 24
     },
     paragraphTextStyles: {
@@ -50,34 +54,65 @@ const styles = {
 
 
 export const BookPost = ()=> {
+
+    const {params} = useContext(NavigatorContext)
+
+    const {loading, error , data : {book} = {} } = useQuery(BOOK_QUERY, {
+        variables: {
+            book: params.id
+        }
+    })
+
+    console.log(error);
+
+    if(loading) return <p>loading</p>
+    if(error) return <p>error</p>
+
     return (
         <RowView style={styles.container} horizontalCenter>
             <ColumnView style={styles.card} >
                 <RowView style={{padding: 8}}>
-                    <img src="https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTYyNDg1MjE3MTI1Mjc5Mzk4/topic-london-gettyimages-760251843-promo.jpg" width="100%" height={600}/>
+                    <img src={book.imageUrl} width="100%" height={600}/>
                 </RowView>
                 <RowView style={styles.titleContainer}>
                     <p style={styles.titleTextStyles}>
-                       Este sera el titulo de un Libro muy interesante
+                      {
+                        book.title
+                      }
                     </p>
                 </RowView>
                 <RowView style={styles.titleContainer}>
                     <p style={styles.itemSubtitleTextStyles}>
-                        Nada es lo que parece
+                       {
+                        book.subtitle
+                       }
                     </p>
                 </RowView>
                 <RowView style={styles.titleContainer}>
                     <p style={styles.itemWriterTextStyles}>
-                        Estrito por Iranad Garcia
+                       {
+                            book.metadata
+                       }
                     </p>
                 </RowView>
-                <RowView style={styles.paragraphContainer}>
-                    <p style={styles.paragraphTextStyles}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </p>
-                </RowView>
+                <ColumnView style={styles.paragraphContainer}>
+                    {
+                        book.review.split("\n\n").map(
+                            (item, index) => (
+                                <>
+                                    {
+                                        index > 0 ? (<br />) : null
+                                    }
+                                    <p style={styles.paragraphTextStyles}>
+                                        {
+                                            item
+                                        }
+                                    </p>
+                                </>
+                            )
+                         )
+                    }
+                </ColumnView>
                 <RowView style={styles.titleContainer} perfectCenter>
                     <a href="https://www.google.com" target="_blank">
                         <p style={styles.itemSubtitleTextStyles}>
