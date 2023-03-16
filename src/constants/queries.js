@@ -69,3 +69,38 @@ export const FILE_QUERY = gql`
         }
     }
 `;
+
+export const UNAVAILABLE_SLOTS = gql`
+    query($startPeriod: DateTime! , $endPeriod: DateTime!) {
+        appointmentsList( 
+        filter : {
+        startDatetime: {
+            gte: $startPeriod
+            lte: $endPeriod
+        }
+        }
+    ) {
+        items {
+        startDatetime
+        endDatetime
+        }
+    }      
+    }
+`
+/*
+query($startPeriod: DateTime! , $endPeriod: DateTime!) {
+	appointmentsList( 
+  	filter : {
+      startDatetime: {
+        gte: $startPeriod
+        lte: $endPeriod
+      }
+    }
+  ) {
+    items {
+      startDatetime
+      endDatetime
+    }
+  }      
+}
+*/

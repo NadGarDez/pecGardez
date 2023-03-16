@@ -1,9 +1,10 @@
 import './App.css';
 import { MainScreen } from './screens/MainScreen';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
+import { eightBaseUrl } from './constants/settings';
 
 const client = new ApolloClient({
-  uri: "https://api.8base.com/clf0erdbe02bt09l99ouc895u",
+  uri: eightBaseUrl,
   cache: new InMemoryCache(),
 });
 
